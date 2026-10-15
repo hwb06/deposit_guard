@@ -10,6 +10,10 @@ class AppTextField extends StatelessWidget {
     this.validator,
     this.maxLength,
     this.maxLines = 1,
+    this.keyboardType,
+    this.obscureText = false,
+    this.suffixIcon,
+    this.autofillHints,
     this.textInputAction = TextInputAction.next,
     this.capitalization = TextCapitalization.words,
   });
@@ -20,6 +24,10 @@ class AppTextField extends StatelessWidget {
   final String? Function(String?)? validator;
   final int? maxLength;
   final int maxLines;
+  final TextInputType? keyboardType;
+  final bool obscureText;
+  final Widget? suffixIcon;
+  final Iterable<String>? autofillHints;
   final TextInputAction textInputAction;
   final TextCapitalization capitalization;
 
@@ -30,9 +38,12 @@ class AppTextField extends StatelessWidget {
     return TextFormField(
       controller: controller,
       validator: validator,
+      obscureText: obscureText,
       minLines: multiline ? 3 : 1,
       maxLines: maxLines,
-      keyboardType: multiline ? TextInputType.multiline : null,
+      keyboardType:
+      keyboardType ?? (multiline ? TextInputType.multiline : null),
+      autofillHints: autofillHints,
       textInputAction: textInputAction,
       textCapitalization: capitalization,
       autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -43,6 +54,7 @@ class AppTextField extends StatelessWidget {
         labelText: label,
         hintText: hint,
         alignLabelWithHint: multiline,
+        suffixIcon: suffixIcon,
       ),
     );
   }

@@ -1,3 +1,4 @@
+import 'package:deposit_guard/presentation/screens/auth.dart';
 import 'package:deposit_guard/presentation/screens/issue_form.dart';
 import 'package:deposit_guard/presentation/screens/onboarding.dart';
 import 'package:deposit_guard/presentation/screens/rental_detail.dart';
@@ -30,6 +31,10 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: AppRoutes.settings,
       builder: (_, __) => const SettingsScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.auth,
+      builder: (_, __) => const AuthScreen(),
     ),
     GoRoute(
       path: AppRoutes.rentals,

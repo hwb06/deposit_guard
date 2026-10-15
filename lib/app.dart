@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'bloc/auth/auth_bloc.dart';
+import 'bloc/auth/auth_event.dart';
 import 'bloc/rental/rental_bloc.dart';
 import 'bloc/rental/rental_event.dart';
 import 'bloc/settings/settings_cubit.dart';
@@ -18,6 +19,9 @@ class DepositGuardApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => sl<SettingsCubit>()),
+        BlocProvider(
+          create: (_) => sl<AuthBloc>()..add(const AuthStarted()),
+        ),
         BlocProvider(
           create: (_) => sl<RentalBloc>()..add(const RentalsLoaded()),
         ),

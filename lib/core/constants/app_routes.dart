@@ -1,6 +1,7 @@
 abstract final class AppRoutes {
   static const String onboarding = '/onboarding';
   static const String settings = '/settings';
+  static const String auth = '/auth';
   static const String rentals = '/';
   static const String rentalNew = '/rentals/new';
   static const String rentalDetail = '/rentals/:id';

@@ -108,4 +108,41 @@ abstract final class AppStrings {
   static const String general = 'General';
   static const String showIntroAgain = 'Show intro again';
 
+  // Auth
+  static const String signIn = 'Sign in';
+  static const String signUp = 'Create account';
+  static const String signOut = 'Sign out';
+  static const String signInOrCreate = 'Sign in or create an account';
+  static const String signedIn = 'Signed in';
+  static const String emailLabel = 'Email';
+  static const String emailHint = 'name@company.com';
+  static const String passwordLabel = 'Password';
+  static const String enterEmail = 'Enter your email';
+  static const String invalidEmail = 'Enter a valid email address';
+  static const String enterPassword = 'Enter your password';
+  static const String passwordTooShort = 'Use at least 8 characters';
+  static const String authSubtitleSignIn =
+      'Sign in to back up your rentals. Your data stays on this device either way.';
+  static const String authSubtitleSignUp =
+      'Create an account to back up your rentals.';
+  static const String switchToSignUp = 'New here? Create an account';
+  static const String switchToSignIn = 'Already have an account? Sign in';
+  static const String signOutTitle = 'Sign out?';
+  static const String signOutMessage =
+      'Your rentals and photos stay on this device.';
+  static const String authInvalidCredentials =
+      'Email or password is incorrect.';
+  static const String authEmailTaken =
+      'An account with this email already exists. Sign in instead.';
+  static const String authEmailNotConfirmed =
+      'Confirm your email first, then sign in.';
+  static const String authCheckEmail =
+      'Account created. Check your email to confirm, then sign in.';
+  static const String authRateLimited =
+      'Too many attempts. Try again in a few minutes.';
+  static const String authNetworkError =
+      "Couldn't connect. Check your internet and try again.";
+  static const String authGeneric = "Couldn't sign you in. Try again.";
+  static const String authUnavailable = 'Sign-in is not set up in this build.';
+
 }

@@ -1,7 +1,8 @@
-import 'package:deposit_guard/services/image/image_service.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
+import 'bloc/auth/auth_bloc.dart';
 import 'bloc/issue/issue_bloc.dart';
 import 'bloc/issue_form/issue_form_cubit.dart';
 import 'bloc/rental/rental_bloc.dart';
@@ -10,13 +11,16 @@ import 'bloc/settings/settings_cubit.dart';
 import 'data/local/app_database.dart';
 import 'data/local/issue_dao.dart';
 import 'data/local/rental_dao.dart';
+import 'data/repositories/auth_repository.dart';
 import 'data/repositories/issue_repository.dart';
 import 'data/repositories/rental_repository.dart';
+import 'services/image/image_service.dart';
 import 'services/preferences_service.dart';
 
 final GetIt sl = GetIt.instance;
 
-Future<void> initDependencies() async {
+/// [authAvailable] is true only when Supabase was initialised successfully.
+Future<void> initDependencies({required bool authAvailable}) async {
   final imageService = ImageService();
   await imageService.init();
   final sharedPreferences = await SharedPreferences.getInstance();
@@ -34,7 +38,13 @@ Future<void> initDependencies() async {
   // Repositories
     ..registerLazySingleton<RentalRepository>(() => RentalRepository(sl()))
     ..registerLazySingleton<IssueRepository>(() => IssueRepository(sl()))
+    ..registerLazySingleton<AuthRepository>(
+          () => AuthRepository(
+        authAvailable ? Supabase.instance.client.auth : null,
+      ),
+    )
   // Blocs / Cubits
+    ..registerFactory<AuthBloc>(() => AuthBloc(sl()))
     ..registerFactory<SettingsCubit>(() => SettingsCubit(sl()))
     ..registerFactory<RentalBloc>(() => RentalBloc(sl()))
     ..registerFactory<RentalDetailCubit>(() => RentalDetailCubit(sl(), sl()))

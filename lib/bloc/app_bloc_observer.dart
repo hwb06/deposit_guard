@@ -1,3 +1,4 @@
+import 'package:deposit_guard/bloc/auth/auth_bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -7,7 +8,10 @@ class AppBlocObserver extends BlocObserver {
   @override
   void onEvent(Bloc<dynamic, dynamic> bloc, Object? event) {
     super.onEvent(bloc, event);
-    if (kDebugMode) debugPrint('[${bloc.runtimeType}] event: $event');
+    // Never print auth events: they contain passwords.
+    if (kDebugMode && bloc is! AuthBloc) {
+      debugPrint('[${bloc.runtimeType}] event: $event');
+    }
   }
 
   @override

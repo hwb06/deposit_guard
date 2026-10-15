@@ -1,3 +1,5 @@
+import 'package:deposit_guard/core/extensions/string_extension.dart';
+
 import '../constants/app_strings.dart';
 
 abstract final class Validators {
@@ -27,6 +29,25 @@ abstract final class Validators {
     if (end == null) return AppStrings.selectDate;
     if (start != null && !end.isAfter(start)) {
       return AppStrings.leaseEndAfterStart;
+    }
+    return null;
+  }
+
+  static const int minPassword = 8;
+
+  static String? email(String? value) {
+    final text = value?.trim() ?? '';
+    if (text.isEmpty) return AppStrings.enterEmail;
+    if (!text.isValidEmail) return AppStrings.invalidEmail;
+    return null;
+  }
+
+  /// Length is enforced only when creating an account, so older
+  /// accounts with shorter passwords can still sign in.
+  static String? password(String? value, {bool enforceLength = false}) {
+    if (value == null || value.isEmpty) return AppStrings.enterPassword;
+    if (enforceLength && value.length < minPassword) {
+      return AppStrings.passwordTooShort;
     }
     return null;
   }
