@@ -145,4 +145,101 @@ abstract final class AppStrings {
   static const String authGeneric = "Couldn't sign you in. Try again.";
   static const String authUnavailable = 'Sign-in is not set up in this build.';
 
+  // Reminders & reports
+  static const String reminderTitle = 'Lease ending soon';
+  static const String exportReport = 'Export PDF report';
+  static const String preparingReport = 'Preparing report...';
+  static const String reportFailed = "Couldn't create the report. Try again.";
+
+  // Cloud backup
+  static const String backupTitle = 'Cloud backup';
+  static const String backUpNow = 'Back up now';
+  static const String restoreFromBackup = 'Restore from backup';
+  static const String restoreSubtitle = 'Add your cloud backup to this device';
+  static const String restoreTitle = 'Restore from backup?';
+  static const String restoreMessage =
+      'This adds anything from your cloud backup that this device is missing '
+      'and updates items that are newer in the cloud. Nothing on this device '
+      'is deleted.';
+  static const String restore = 'Restore';
+  static const String backupSignInTitle = 'Back up your rentals';
+  static const String backupSignInMessage =
+      'Sign in to save your rentals and photos to the cloud.';
+  static const String neverBackedUp = 'Not backed up yet';
+  static String lastBackedUp(String when) => 'Last backed up $when';
+
+  // Backup progress
+  static const String backupChecking = 'Checking your cloud backup...';
+  static const String restoreReading = 'Reading your cloud backup...';
+  static const String restoreSaving = 'Saving to this device...';
+  static String backupUploadingPhotos(int done, int total) =>
+      'Uploading photo $done of $total...';
+  static String restoreDownloadingPhotos(int done, int total) =>
+      'Downloading photo $done of $total...';
+
+  // Backup results
+  static const String backupUpToDate = 'Everything is already backed up.';
+  static const String restoreNothingNew =
+      'Nothing new to restore. This device already has your latest data.';
+  static const String restorePhotosMissing =
+      'Some photos could not be downloaded. Restore again to retry.';
+
+  static String backupDone({
+    required int rentals,
+    required int issues,
+    required int photos,
+    required int removed,
+  }) {
+    final parts = <String>[
+      if (rentals > 0) _count(rentals, 'rental'),
+      if (issues > 0) _count(issues, 'issue'),
+      if (photos > 0) _count(photos, 'photo'),
+    ];
+    return <String>[
+      if (parts.isNotEmpty) 'Backed up ${_join(parts)}.',
+      if (removed > 0) 'Removed ${_count(removed, 'deleted item')} from the cloud.',
+    ].join(' ');
+  }
+
+  static String restoreDone({
+    required int rentals,
+    required int issues,
+    required int photos,
+    int photoFailures = 0,
+  }) {
+    final parts = <String>[
+      if (rentals > 0) _count(rentals, 'rental'),
+      if (issues > 0) _count(issues, 'issue'),
+      if (photos > 0) _count(photos, 'photo'),
+    ];
+    return <String>[
+      if (parts.isNotEmpty) 'Restored ${_join(parts)}.',
+      if (photoFailures > 0) restorePhotosMissing,
+    ].join(' ');
+  }
+
+  static String _count(int n, String noun) => '$n $noun${n == 1 ? '' : 's'}';
+
+  static String _join(List<String> parts) => switch (parts.length) {
+    0 => '',
+    1 => parts.first,
+    2 => '${parts.first} and ${parts.last}',
+    _ => '${parts.sublist(0, parts.length - 1).join(', ')}, '
+        'and ${parts.last}',
+  };
+
+  // Backup errors
+  static const String backupUnavailable =
+      'Cloud backup is not set up in this build.';
+  static const String backupSignInRequired = 'Sign in to use cloud backup.';
+  static const String backupSessionExpired =
+      'Your session expired. Sign in again.';
+  static const String backupNetworkError =
+      "Couldn't reach the cloud. Check your internet and try again.";
+  static const String backupNotSetUp =
+      "Cloud backup isn't set up on the server yet. Run the setup SQL in Supabase.";
+  static const String backupGeneric = "Couldn't finish the backup. Try again.";
+  static const String restoreGeneric = "Couldn't finish the restore. Try again.";
+  static const String working = 'Working...';
+
 }

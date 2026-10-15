@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'app.dart';
@@ -10,9 +11,29 @@ import 'injection_container.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Env.load();
+
+  final dsn = Env.sentryDsn;
+  if (dsn.isEmpty || dsn.contains('your_')) {
+    debugPrint('Sentry is not configured. Error tracking is off.');
+    await _bootstrap();
+    return;
+  }
+
+  await SentryFlutter.init(
+        (options) {
+      options.dsn = dsn;
+      options.environment = kReleaseMode ? 'production' : 'development';
+      options.sendDefaultPii = false; // no IP / user data
+      options.tracesSampleRate = 0; // errors only, no performance traces
+    },
+    appRunner: _bootstrap,
+  );
+}
+
+Future<void> _bootstrap() async {
   Bloc.observer = const AppBlocObserver();
 
-  await Env.load();
   final authAvailable = await _initSupabase();
   await initDependencies(authAvailable: authAvailable);
 

@@ -92,4 +92,31 @@ class IssueDao {
     );
     return Sqflite.firstIntValue(result) ?? 0;
   }
+
+  Future<List<IssueModel>> getAll() async {
+    final db = await _appDb.database;
+    final rows = await db.query(
+      IssueTable.table,
+      orderBy: '${IssueTable.createdAt} ASC',
+    );
+    return rows.map(IssueModel.fromMap).toList();
+  }
+
+  /// Saves rows exactly as given (keeps their `updated_at`).
+  Future<void> upsertAll(List<IssueModel> issues) async {
+    if (issues.isEmpty) return;
+    final db = await _appDb.database;
+    await db.transaction((txn) async {
+      for (final issue in issues) {
+        final changed = await txn.update(
+          IssueTable.table,
+          issue.toMap(),
+          where: '${IssueTable.id} = ?',
+          whereArgs: [issue.id],
+        );
+        if (changed == 0) await txn.insert(IssueTable.table, issue.toMap());
+      }
+    });
+  }
+
 }

@@ -3,6 +3,8 @@ import 'package:intl/intl.dart';
 extension DateExtension on DateTime {
   /// Example: 15 Jun 2027
   String get formatted => DateFormat('d MMM yyyy').format(this);
+  /// Example: 15 Jun 2027, 4:30 PM
+  String get formattedDateTime => DateFormat('d MMM yyyy, h:mm a').format(this);
 
   /// Days left from today (negative if the date has passed).
   int get daysFromNow {
@@ -13,4 +15,6 @@ extension DateExtension on DateTime {
   }
 
   bool get isPast => daysFromNow < 0;
+
+
 }

@@ -8,6 +8,7 @@ import 'package:deposit_guard/presentation/widgets/rental/lease_chip.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 import '../../../bloc/issue/issue_bloc.dart';
 import '../../../bloc/issue/issue_event.dart';
@@ -28,6 +29,7 @@ import '../../../data/models/issue_model.dart';
 import '../../../data/models/issue_severity.dart';
 import '../../../data/models/rental_model.dart';
 import '../../../injection_container.dart';
+import '../../../services/report_service.dart';
 
 
 /// Opens the issue form, then refreshes the issue list and the count.
@@ -123,6 +125,11 @@ class _DetailActions extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         IconButton(
+          tooltip: AppStrings.exportReport,
+          icon: const Icon(Icons.picture_as_pdf_outlined),
+          onPressed: () => _exportPdf(context, rental),
+        ),
+        IconButton(
           tooltip: 'Edit',
           icon: const Icon(Icons.edit_outlined),
           onPressed: () =>
@@ -135,6 +142,17 @@ class _DetailActions extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  Future<void> _exportPdf(BuildContext context, RentalModel rental) async {
+    context.showSnack(AppStrings.preparingReport);
+    try {
+      await sl<ReportService>().shareRentalReport(rental);
+    } catch (error, stackTrace) {
+      Sentry.captureException(error, stackTrace: stackTrace);
+      if (!context.mounted) return;
+      context.showSnack(AppStrings.reportFailed, isError: true);
+    }
   }
 
   Future<void> _confirmDelete(BuildContext context, RentalModel rental) async {

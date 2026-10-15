@@ -30,4 +30,11 @@ class IssueRepository {
       _dao.update(issue.copyWith(updatedAt: DateTime.now()));
 
   Future<void> deleteIssue(String id) => _dao.delete(id);
+
+  Future<List<IssueModel>> getAllIssues() => _dao.getAll();
+
+  /// Used by cloud restore. Keeps the original `updated_at` timestamps.
+  Future<void> restoreIssues(List<IssueModel> issues) =>
+      _dao.upsertAll(issues);
+
 }

@@ -18,4 +18,9 @@ class RentalRepository {
       _dao.update(rental.copyWith(updatedAt: DateTime.now()));
 
   Future<void> deleteRental(String id) => _dao.delete(id);
+
+  /// Used by cloud restore. Keeps the original `updated_at` timestamps.
+  Future<void> restoreRentals(List<RentalModel> rentals) =>
+      _dao.upsertAll(rentals);
+
 }

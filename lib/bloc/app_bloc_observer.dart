@@ -1,6 +1,7 @@
 import 'package:deposit_guard/bloc/auth/auth_bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 class AppBlocObserver extends BlocObserver {
   const AppBlocObserver();
@@ -19,7 +20,8 @@ class AppBlocObserver extends BlocObserver {
     if (kDebugMode) {
       debugPrint('[${bloc.runtimeType}] error: $error');
     }
-    // TODO(phase-6): report to Sentry via ErrorTrackingService.
+    // No-op when Sentry was not initialised (no DSN).
+    Sentry.captureException(error, stackTrace: stackTrace);
     super.onError(bloc, error, stackTrace);
   }
 }

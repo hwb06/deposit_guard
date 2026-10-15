@@ -25,4 +25,25 @@ class PreferencesService {
 
   Future<void> setOnboardingDone(bool value) =>
       _prefs.setBool(_onboardingKey, value);
+
+  // Cloud backup bookkeeping, kept separately for each signed-in user.
+
+  DateTime? lastBackup(String userId) {
+    final raw = _prefs.getString('last_backup_$userId');
+    return raw == null ? null : DateTime.tryParse(raw)?.toLocal();
+  }
+
+  Future<void> setLastBackup(String userId, DateTime time) => _prefs.setString(
+    'last_backup_$userId',
+    time.toUtc().toIso8601String(),
+  );
+
+  /// Ids this device has already backed up. Used to detect deletions.
+  Set<String> syncedIds(String userId, String kind) =>
+      (_prefs.getStringList('synced_${kind}_$userId') ?? const <String>[])
+          .toSet();
+
+  Future<void> setSyncedIds(String userId, String kind, Set<String> ids) =>
+      _prefs.setStringList('synced_${kind}_$userId', ids.toList());
+
 }

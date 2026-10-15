@@ -1,5 +1,4 @@
 import 'package:sqflite/sqflite.dart';
-
 import '../models/rental_model.dart';
 import 'app_database.dart';
 import 'db_tables.dart';
@@ -63,4 +62,24 @@ class RentalDao {
     );
     return rows.map(RentalModel.fromMap).toList();
   }
+
+  /// Saves rows exactly as given (keeps their `updated_at`).
+  /// Updates first, then inserts. Never use REPLACE here: it would delete
+  /// the old rental row and cascade-delete all of its issues.
+  Future<void> upsertAll(List<RentalModel> rentals) async {
+    if (rentals.isEmpty) return;
+    final db = await _appDb.database;
+    await db.transaction((txn) async {
+      for (final rental in rentals) {
+        final changed = await txn.update(
+          RentalTable.table,
+          rental.toMap(),
+          where: '${RentalTable.id} = ?',
+          whereArgs: [rental.id],
+        );
+        if (changed == 0) await txn.insert(RentalTable.table, rental.toMap());
+      }
+    });
+  }
+
 }
