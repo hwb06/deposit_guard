@@ -1,20 +1,17 @@
 import 'package:intl/intl.dart';
 
 extension DateExtension on DateTime {
-  /// Example: 15 Jun 2027
   String get formatted => DateFormat('d MMM yyyy').format(this);
-  /// Example: 15 Jun 2027, 4:30 PM
+
   String get formattedDateTime => DateFormat('d MMM yyyy, h:mm a').format(this);
 
-  /// Days left from today (negative if the date has passed).
-  int get daysFromNow {
-    final today = DateTime.now();
-    final start = DateTime(today.year, today.month, today.day);
-    final end = DateTime(year, month, day);
+  int daysSince(DateTime from) {
+    final end = DateTime.utc(year, month, day);
+    final start = DateTime.utc(from.year, from.month, from.day);
     return end.difference(start).inDays;
   }
 
+  int get daysFromNow => daysSince(DateTime.now());
+
   bool get isPast => daysFromNow < 0;
-
-
 }

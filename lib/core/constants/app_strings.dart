@@ -242,4 +242,9 @@ abstract final class AppStrings {
   static const String restoreGeneric = "Couldn't finish the restore. Try again.";
   static const String working = 'Working...';
 
+  // Validation and offline
+  static String tooLong(int max) => 'Keep it under $max characters';
+  static const String passwordTooLong = 'Use 72 characters or fewer';
+  static const String offlineAction =
+      'You are offline. Connect to the internet and try again.';
 }

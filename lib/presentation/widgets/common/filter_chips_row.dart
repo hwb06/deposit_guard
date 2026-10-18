@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../../core/constants/app_dimensions.dart';
 import '../../../core/constants/app_strings.dart';
 
-/// Horizontal filter chips with a leading "All" chip (selected == null).
 class FilterChipsRow<T> extends StatelessWidget {
   const FilterChipsRow({
     super.key,

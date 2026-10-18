@@ -13,16 +13,13 @@ final class BackupState extends Equatable {
   final BackupStatus status;
   final DateTime? lastBackup;
 
-  /// Live text while a run is in progress.
   final String? progress;
 
-  /// Result text (success or error) shown once when a run finishes.
   final String? message;
 
   bool get busy =>
       status == BackupStatus.backingUp || status == BackupStatus.restoring;
 
-  /// [progress] and [message] are not preserved between copies.
   BackupState copyWith({
     BackupStatus? status,
     DateTime? lastBackup,

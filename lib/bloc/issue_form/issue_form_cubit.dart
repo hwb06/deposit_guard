@@ -112,15 +112,12 @@ class IssueFormCubit extends Cubit<IssueFormState> {
     emit(state.copyWith(status: IssueFormStatus.done));
   }
 
-  /// Emits the error once, then returns to the editing state so the
-  /// same error can be shown again later.
   void _fail(String message) {
     if (isClosed) return;
     emit(state.copyWith(status: IssueFormStatus.failure, errorMessage: message));
     emit(state.copyWith(status: IssueFormStatus.editing));
   }
 
-  /// Deletes every photo file except [keep] (original and newly picked).
   Future<void> _discardPhotos({required String? keep}) async {
     final stale = <String>{
       ..._pendingPhotos,

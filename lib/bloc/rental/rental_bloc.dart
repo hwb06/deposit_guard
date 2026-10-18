@@ -1,6 +1,5 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../core/constants/app_strings.dart';
 import '../../data/repositories/rental_repository.dart';
 import 'rental_event.dart';
@@ -41,6 +40,7 @@ class RentalBloc extends Bloc<RentalEvent, RentalState> {
       Emitter<RentalState> emit,
       ) async {
     await Future<void>.delayed(_searchDebounce);
+    if (emit.isDone) return; // a newer search replaced this one
     emit(state.copyWith(query: event.query, rentals: state.rentals));
     await _fetch(emit);
   }

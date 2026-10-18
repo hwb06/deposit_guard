@@ -1,6 +1,6 @@
+import 'package:deposit_guard/bloc/backup/connectivity/connectivity_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'bloc/auth/auth_bloc.dart';
 import 'bloc/auth/auth_event.dart';
 import 'bloc/backup/backup_cubit.dart';
@@ -14,6 +14,7 @@ import 'core/constants/app_strings.dart';
 import 'core/router/app_router.dart';
 import 'core/theme/app_theme.dart';
 import 'injection_container.dart';
+import 'presentation/widgets/common/offline_shell.dart';
 import 'services/reminder_service.dart';
 
 class DepositGuardApp extends StatelessWidget {
@@ -31,6 +32,7 @@ class DepositGuardApp extends StatelessWidget {
           create: (_) => sl<RentalBloc>()..add(const RentalsLoaded()),
         ),
         BlocProvider(create: (_) => sl<BackupCubit>()),
+        BlocProvider(create: (_) => sl<ConnectivityCubit>()),
       ],
       child: MultiBlocListener(
         listeners: [
@@ -61,6 +63,8 @@ class DepositGuardApp extends StatelessWidget {
               darkTheme: AppTheme.dark,
               themeMode: settings.themeMode,
               routerConfig: appRouter,
+              builder: (context, child) =>
+                  OfflineShell(child: child ?? const SizedBox.shrink()),
             );
           },
         ),

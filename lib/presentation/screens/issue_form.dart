@@ -23,7 +23,6 @@ class IssueFormScreen extends StatelessWidget {
 
   final String rentalId;
 
-  /// When provided, the form edits this issue instead of creating one.
   final IssueModel? issue;
 
   @override

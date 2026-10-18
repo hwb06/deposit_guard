@@ -10,7 +10,6 @@ final class AuthState extends Equatable {
     this.noticeMessage,
   });
 
-  /// Null means guest mode.
   final AppUser? user;
   final bool busy;
   final String? errorMessage;

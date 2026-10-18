@@ -9,7 +9,6 @@ class AppBlocObserver extends BlocObserver {
   @override
   void onEvent(Bloc<dynamic, dynamic> bloc, Object? event) {
     super.onEvent(bloc, event);
-    // Never print auth events: they contain passwords.
     if (kDebugMode && bloc is! AuthBloc) {
       debugPrint('[${bloc.runtimeType}] event: $event');
     }
@@ -20,7 +19,6 @@ class AppBlocObserver extends BlocObserver {
     if (kDebugMode) {
       debugPrint('[${bloc.runtimeType}] error: $error');
     }
-    // No-op when Sentry was not initialised (no DSN).
     Sentry.captureException(error, stackTrace: stackTrace);
     super.onError(bloc, error, stackTrace);
   }

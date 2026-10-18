@@ -17,7 +17,7 @@ abstract final class Validators {
     final text = value?.trim() ?? '';
     if (text.isEmpty) return emptyMessage;
     if (text.length > maxLength) {
-      return 'Keep it under $maxLength characters';
+      return AppStrings.tooLong(maxLength);
     }
     return null;
   }
@@ -35,17 +35,22 @@ abstract final class Validators {
 
   static const int minPassword = 8;
 
+  static const int maxEmail = 254;
+
+  static const int maxPassword = 72;
+
   static String? email(String? value) {
     final text = value?.trim() ?? '';
     if (text.isEmpty) return AppStrings.enterEmail;
-    if (!text.isValidEmail) return AppStrings.invalidEmail;
+    if (text.length > maxEmail || !text.isValidEmail) {
+      return AppStrings.invalidEmail;
+    }
     return null;
   }
 
-  /// Length is enforced only when creating an account, so older
-  /// accounts with shorter passwords can still sign in.
   static String? password(String? value, {bool enforceLength = false}) {
     if (value == null || value.isEmpty) return AppStrings.enterPassword;
+    if (value.length > maxPassword) return AppStrings.passwordTooLong;
     if (enforceLength && value.length < minPassword) {
       return AppStrings.passwordTooShort;
     }

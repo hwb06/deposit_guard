@@ -9,8 +9,6 @@ class AuthFailure implements Exception {
   final String message;
 }
 
-/// Wraps Supabase Auth. When [_auth] is null (Supabase not configured),
-/// the app runs in guest-only mode.
 class AuthRepository {
   const AuthRepository(this._auth);
 
@@ -29,7 +27,6 @@ class AuthRepository {
   Future<void> signIn({required String email, required String password}) =>
       _guard((auth) => auth.signInWithPassword(email: email, password: password));
 
-  /// Returns true when the user must confirm their email before signing in.
   Future<bool> signUp({required String email, required String password}) async {
     final response = await _guard(
           (auth) => auth.signUp(email: email, password: password),
@@ -50,7 +47,6 @@ class AuthRepository {
     } on supabase.AuthException catch (error) {
       throw _failureFrom(error.message);
     } catch (_) {
-      // Non-auth errors here are almost always connection problems.
       throw const AuthFailure(AppStrings.authNetworkError);
     }
   }

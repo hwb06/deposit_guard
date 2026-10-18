@@ -42,6 +42,7 @@ class IssueBloc extends Bloc<IssueEvent, IssueState> {
       Emitter<IssueState> emit,
       ) async {
     await Future<void>.delayed(_searchDebounce);
+    if (emit.isDone) return; // a newer search replaced this one
     await _applyFilter(emit, state.filter.withQuery(event.query));
   }
 

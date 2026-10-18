@@ -1,7 +1,7 @@
+import 'package:deposit_guard/bloc/backup/connectivity/connectivity_cubit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
 import 'bloc/auth/auth_bloc.dart';
 import 'bloc/backup/backup_cubit.dart';
 import 'bloc/issue/issue_bloc.dart';
@@ -17,6 +17,7 @@ import 'data/repositories/auth_repository.dart';
 import 'data/repositories/backup_repository.dart';
 import 'data/repositories/issue_repository.dart';
 import 'data/repositories/rental_repository.dart';
+import 'services/connectivity_service.dart';
 import 'services/image/image_service.dart';
 import 'services/preferences_service.dart';
 import 'services/reminder_service.dart';
@@ -36,6 +37,7 @@ Future<void> initDependencies({required bool authAvailable}) async {
     ..registerSingleton<PreferencesService>(
       PreferencesService(sharedPreferences),
     )
+    ..registerLazySingleton<ConnectivityService>(() => ConnectivityService())
   // Data sources
     ..registerLazySingleton<AppDatabase>(() => AppDatabase.instance)
     ..registerLazySingleton<RentalDao>(() => RentalDao(sl()))
@@ -67,7 +69,8 @@ Future<void> initDependencies({required bool authAvailable}) async {
   // Blocs / Cubits
     ..registerFactory<AuthBloc>(() => AuthBloc(sl()))
     ..registerFactory<SettingsCubit>(() => SettingsCubit(sl()))
-    ..registerFactory<BackupCubit>(() => BackupCubit(sl()))
+    ..registerFactory<BackupCubit>(() => BackupCubit(sl(), sl()))
+    ..registerFactory<ConnectivityCubit>(() => ConnectivityCubit(sl()))
     ..registerFactory<RentalBloc>(() => RentalBloc(sl()))
     ..registerFactory<RentalDetailCubit>(() => RentalDetailCubit(sl(), sl()))
     ..registerFactory<IssueBloc>(() => IssueBloc(sl()))

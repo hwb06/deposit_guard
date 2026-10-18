@@ -1,9 +1,8 @@
-import 'package:flutter/foundation.dart';
+import '../../core/config/app_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
-
 import '../../../bloc/auth/auth_bloc.dart';
 import '../../../bloc/auth/auth_event.dart';
 import '../../../bloc/auth/auth_state.dart';
@@ -77,7 +76,7 @@ class SettingsScreen extends StatelessWidget {
             ],
           ),
           // Debug builds only. Not compiled into release builds.
-          if (kDebugMode) ...[
+          if (AppFlags.showQaTools) ...[
             const _SectionTitle('Debug tools'),
             _Group(
               children: [

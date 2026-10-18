@@ -63,9 +63,6 @@ class RentalDao {
     return rows.map(RentalModel.fromMap).toList();
   }
 
-  /// Saves rows exactly as given (keeps their `updated_at`).
-  /// Updates first, then inserts. Never use REPLACE here: it would delete
-  /// the old rental row and cascade-delete all of its issues.
   Future<void> upsertAll(List<RentalModel> rentals) async {
     if (rentals.isEmpty) return;
     final db = await _appDb.database;

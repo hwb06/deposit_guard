@@ -34,7 +34,6 @@ class PhotoThumb extends StatelessWidget {
         width: size,
         height: size,
         fit: BoxFit.cover,
-        // Decode at thumbnail size to keep scrolling smooth.
         cacheWidth: (size * MediaQuery.devicePixelRatioOf(context))
             .round(),
         errorBuilder: (_, __, ___) => placeholder,

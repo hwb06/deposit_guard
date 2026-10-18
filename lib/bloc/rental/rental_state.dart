@@ -19,8 +19,6 @@ final class RentalState extends Equatable {
 
   bool get isSearching => query.trim().isNotEmpty;
 
-  /// Note: [errorMessage] is not preserved between copies,
-  /// so a successful state always clears the old error.
   RentalState copyWith({
     RentalStatus? status,
     List<RentalModel>? rentals,

@@ -1,8 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-/// Reads secrets from the bundled `.env` file.
-/// Nothing is hardcoded; missing values simply disable that feature.
 abstract final class Env {
   static bool _loaded = false;
 

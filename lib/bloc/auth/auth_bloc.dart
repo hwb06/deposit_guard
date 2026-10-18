@@ -18,7 +18,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   final AuthRepository _repository;
 
-  /// False when Supabase is not configured (guest-only build).
   bool get isAvailable => _repository.isAvailable;
 
   Future<void> _onStarted(AuthStarted event, Emitter<AuthState> emit) {
@@ -52,8 +51,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
   }
 
-  /// Runs [action] with a busy state. The action may return a notice
-  /// message to show the user (for example "check your email").
   Future<void> _run(
       Emitter<AuthState> emit,
       Future<String?> Function() action,

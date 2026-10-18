@@ -12,13 +12,9 @@ import '../models/issue_severity.dart';
 import '../models/issue_stage.dart';
 import '../models/rental_model.dart';
 
-/// Talks to Supabase (tables + private photo bucket).
-/// Every failure is turned into a [BackupFailure] with a friendly message,
-/// or rethrown untouched when it is unexpected (so Sentry can report it).
 class BackupRemoteSource {
   const BackupRemoteSource(this._client);
 
-  /// Null when Supabase is not configured (guest-only build).
   final SupabaseClient? _client;
 
   static const String _rentalsTable = 'rentals';

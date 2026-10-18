@@ -1,4 +1,4 @@
-package com.example.deposit_guard
+package com.hussnain.depositguard
 
 import io.flutter.embedding.android.FlutterActivity
 
