@@ -166,3 +166,8 @@ flutter test      # unit and BLoC tests
 | [docs/case-study.md](docs/case-study.md) | One-page case study |
 
 
+## Try the app
+The Android APK is available on request. Message me, and I will share it.
+
+- LinkedIn: www.linkedin.com/in/hussnain-waheed-7686481a6
+- Email: hussnainwaheed864@gmail.com
